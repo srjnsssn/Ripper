@@ -1,0 +1,7 @@
+.vault.key
+*.db
+__pycache__/
+node_modules/
+.env
+.venv/
+venv/
