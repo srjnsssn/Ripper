@@ -4,3 +4,4 @@ PyMuPDF
 cryptography
 pydantic
 python-dotenv
+sqlalchemy
