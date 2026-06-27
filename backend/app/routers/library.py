@@ -10,6 +10,7 @@ from ..database import Capitulo, Libro, engine
 from ..schemas import CapituloResponse, LibroResponse, LibroUpdate
 from ..services.pdf_processor import extract_toc
 from ..services.ai_router import extract_toc_via_ai
+from ..services.pdf_slicer import slice_pdf
 
 router = APIRouter(prefix="/books", tags=["books"])
 
@@ -138,6 +139,16 @@ async def process_book(book_id: str) -> list[CapituloResponse]:
             )
             for c in created
         ]
+
+
+@router.post("/{book_id}/rip")
+async def rip_book(book_id: str) -> dict:
+    with Session(engine) as session:
+        try:
+            result = slice_pdf(book_id, session)
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        return result
 
 
 @router.get("", response_model=list[LibroResponse])
