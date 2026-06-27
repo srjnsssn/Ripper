@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .database import init_db
+from .routers import library as library_router
 from .routers import vault as vault_router
 from .vault import vault
 
@@ -26,6 +27,7 @@ app.add_middleware(
 )
 
 app.include_router(vault_router.router, prefix="/api")
+app.include_router(library_router.router, prefix="/api")
 
 
 @app.get("/")
